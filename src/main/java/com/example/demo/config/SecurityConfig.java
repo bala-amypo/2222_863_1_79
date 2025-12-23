@@ -13,9 +13,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth..requestMatchers(
-                    "",
-                    "/v3/api-docs/**"
+            .authorizeHttpRequests(auth -> auth.requestMatchers(
+                    "https://9113.32procr.amypo.ai/swagger-ui/index.html",
+                    "/v3/api-docs/").permitAll()
                 
                 .anyRequest().permitAll()
             );
