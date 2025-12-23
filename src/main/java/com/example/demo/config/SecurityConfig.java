@@ -19,6 +19,45 @@ public class SecurityConfig {
                 
                 .anyRequest().permitAll()
             );
+package com.example.demo.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@Configuration
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            // REST API → CSRF not needed
+            .csrf(csrf -> csrf.disable())
+
+            // Authorization rules
+            .authorizeHttpRequests(auth -> auth
+                // ✅ Swagger & OpenAPI
+                .requestMatchers(
+                    "/swagger-ui/**",
+                    "/v3/api-docs/**"
+                ).permitAll()
+
+                // ✅ Everything else (for now)
+                .anyRequest().permitAll()
+            );
+
+        return http.build();
+    }
+
+    // Password encoder for future auth/JWT
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+}
 
         return http.build();
     }
