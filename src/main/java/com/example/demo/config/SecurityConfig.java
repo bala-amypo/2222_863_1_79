@@ -1,4 +1,3 @@
-
 package com.example.demo.config;
 
 import org.springframework.context.annotation.Bean;
@@ -13,34 +12,20 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            // REST API → CSRF not needed
-            .csrf(csrf -> csrf.disable())
 
-            // Authorization rules
+        http
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                // ✅ Swagger & OpenAPI
                 .requestMatchers(
                     "/swagger-ui/**",
                     "/v3/api-docs/**"
                 ).permitAll()
-
-                // ✅ Everything else (for now)
                 .anyRequest().permitAll()
             );
 
         return http.build();
     }
 
-    // Password encoder for future auth/JWT
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-}
-
-        return http.build();
-    }
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
