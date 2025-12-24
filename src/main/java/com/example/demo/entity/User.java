@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -18,9 +17,6 @@ public class User {
     private String password;
     
     private String role;
-    
-    @OneToMany(mappedBy = "user")
-    private List<Vehicle> vehicles;
     
     public User() {}
     
@@ -45,7 +41,4 @@ public class User {
     
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
-    
-    public List<Vehicle> getVehicles() { return vehicles; }
-    public void setVehicles(List<Vehicle> vehicles) { this.vehicles = vehicles; }
 }

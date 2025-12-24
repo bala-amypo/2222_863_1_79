@@ -16,13 +16,13 @@ public class VehicleController {
         this.vehicleService = vehicleService;
     }
     
-    @PostMapping("/vehicles/{userId}")
+    @PostMapping("/{userId}")
     public ResponseEntity<Vehicle> addVehicle(@PathVariable Long userId, @RequestBody Vehicle vehicle) {
-        Vehicle addedVehicle = vehicleService.addVehicle(userId, vehicle);
-        return ResponseEntity.ok(addedVehicle);
+        Vehicle savedVehicle = vehicleService.addVehicle(userId, vehicle);
+        return ResponseEntity.ok(savedVehicle);
     }
     
-    @GetMapping("/vehicles/user/{userId}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<List<Vehicle>> getVehiclesByUser(@PathVariable Long userId) {
         List<Vehicle> vehicles = vehicleService.getVehiclesByUser(userId);
         return ResponseEntity.ok(vehicles);

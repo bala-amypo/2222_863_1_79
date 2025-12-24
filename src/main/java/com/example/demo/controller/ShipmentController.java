@@ -15,13 +15,13 @@ public class ShipmentController {
         this.shipmentService = shipmentService;
     }
     
-    @PostMapping("/shipments/{vehicleId}")
+    @PostMapping("/{vehicleId}")
     public ResponseEntity<Shipment> createShipment(@PathVariable Long vehicleId, @RequestBody Shipment shipment) {
-        Shipment createdShipment = shipmentService.createShipment(vehicleId, shipment);
-        return ResponseEntity.ok(createdShipment);
+        Shipment savedShipment = shipmentService.createShipment(vehicleId, shipment);
+        return ResponseEntity.ok(savedShipment);
     }
     
-    @GetMapping("/shipments/{shipmentId}")
+    @GetMapping("/{shipmentId}")
     public ResponseEntity<Shipment> getShipment(@PathVariable Long shipmentId) {
         Shipment shipment = shipmentService.getShipment(shipmentId);
         return ResponseEntity.ok(shipment);

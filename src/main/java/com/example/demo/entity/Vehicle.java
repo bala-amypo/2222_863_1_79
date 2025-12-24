@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "vehicles")
@@ -20,9 +19,6 @@ public class Vehicle {
     private Double capacityKg;
     
     private Double fuelEfficiency;
-    
-    @OneToMany(mappedBy = "vehicle")
-    private List<Shipment> shipments;
     
     public Vehicle() {}
     
@@ -47,7 +43,4 @@ public class Vehicle {
     
     public Double getFuelEfficiency() { return fuelEfficiency; }
     public void setFuelEfficiency(Double fuelEfficiency) { this.fuelEfficiency = fuelEfficiency; }
-    
-    public List<Shipment> getShipments() { return shipments; }
-    public void setShipments(List<Shipment> shipments) { this.shipments = shipments; }
 }
