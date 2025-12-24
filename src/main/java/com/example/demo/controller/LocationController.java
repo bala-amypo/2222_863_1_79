@@ -16,13 +16,13 @@ public class LocationController {
         this.locationService = locationService;
     }
     
-    @PostMapping("/locations")
+    @PostMapping
     public ResponseEntity<Location> createLocation(@RequestBody Location location) {
-        Location createdLocation = locationService.createLocation(location);
-        return ResponseEntity.ok(createdLocation);
+        Location savedLocation = locationService.createLocation(location);
+        return ResponseEntity.ok(savedLocation);
     }
     
-    @GetMapping("/locations")
+    @GetMapping
     public ResponseEntity<List<Location>> getAllLocations() {
         List<Location> locations = locationService.getAllLocations();
         return ResponseEntity.ok(locations);

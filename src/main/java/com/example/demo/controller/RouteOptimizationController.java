@@ -15,15 +15,9 @@ public class RouteOptimizationController {
         this.routeOptimizationService = routeOptimizationService;
     }
     
-    @PostMapping("/optimize/{shipmentId}")
+    @PostMapping("/{shipmentId}")
     public ResponseEntity<RouteOptimizationResult> optimizeRoute(@PathVariable Long shipmentId) {
         RouteOptimizationResult result = routeOptimizationService.optimizeRoute(shipmentId);
-        return ResponseEntity.ok(result);
-    }
-    
-    @GetMapping("/optimize/result/{resultId}")
-    public ResponseEntity<RouteOptimizationResult> getResult(@PathVariable Long resultId) {
-        RouteOptimizationResult result = routeOptimizationService.getResult(resultId);
         return ResponseEntity.ok(result);
     }
 }
