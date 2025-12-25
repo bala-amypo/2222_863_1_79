@@ -10,11 +10,11 @@ import java.util.List;
 public class LocationServiceImpl implements LocationService {
     
     private final LocationRepository locationRepository;
-    
+
     public LocationServiceImpl(LocationRepository locationRepository) {
         this.locationRepository = locationRepository;
     }
-    
+
     @Override
     public Location createLocation(Location location) {
         if (location.getLatitude() < -90 || location.getLatitude() > 90) {
@@ -22,7 +22,7 @@ public class LocationServiceImpl implements LocationService {
         }
         return locationRepository.save(location);
     }
-    
+
     @Override
     public List<Location> getAllLocations() {
         return locationRepository.findAll();
