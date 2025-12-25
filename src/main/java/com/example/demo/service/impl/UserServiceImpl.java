@@ -12,12 +12,12 @@ public class UserServiceImpl implements UserService {
     
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    
+
     public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
-    
+
     @Override
     public User register(User user) {
         if (user.getRole() == null || user.getRole().isEmpty()) {
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
-    
+
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
