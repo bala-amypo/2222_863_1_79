@@ -19,16 +19,16 @@ public class Vehicle {
     private Double capacityKg;
     
     private Double fuelEfficiency;
-    
+
     public Vehicle() {}
-    
+
     public Vehicle(User user, String vehicleNumber, Double capacityKg, Double fuelEfficiency) {
         this.user = user;
         this.vehicleNumber = vehicleNumber;
         this.capacityKg = capacityKg;
         this.fuelEfficiency = fuelEfficiency;
     }
-    
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
