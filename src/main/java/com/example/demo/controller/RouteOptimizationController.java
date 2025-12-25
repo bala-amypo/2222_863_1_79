@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.*;
 public class RouteOptimizationController {
     
     private final RouteOptimizationService routeOptimizationService;
-    
+
     public RouteOptimizationController(RouteOptimizationService routeOptimizationService) {
         this.routeOptimizationService = routeOptimizationService;
     }
-    
+
     @PostMapping("/{shipmentId}")
     public ResponseEntity<RouteOptimizationResult> optimizeRoute(@PathVariable Long shipmentId) {
         RouteOptimizationResult result = routeOptimizationService.optimizeRoute(shipmentId);

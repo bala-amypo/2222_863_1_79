@@ -14,15 +14,15 @@ public class Location {
     private Double latitude;
     
     private Double longitude;
-    
+
     public Location() {}
-    
+
     public Location(String name, Double latitude, Double longitude) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
     }
-    
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     

@@ -16,19 +16,19 @@ public class AuthController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
     private final BCryptPasswordEncoder passwordEncoder;
-    
+
     public AuthController(UserService userService, JwtUtil jwtUtil, BCryptPasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.jwtUtil = jwtUtil;
         this.passwordEncoder = passwordEncoder;
     }
-    
+
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody User user) {
         User registeredUser = userService.register(user);
         return ResponseEntity.ok(registeredUser);
     }
-    
+
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> loginRequest) {
         String email = loginRequest.get("email");
