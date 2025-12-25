@@ -11,17 +11,17 @@ import java.util.List;
 public class LocationController {
     
     private final LocationService locationService;
-
+    
     public LocationController(LocationService locationService) {
         this.locationService = locationService;
     }
-
+    
     @PostMapping
     public ResponseEntity<Location> createLocation(@RequestBody Location location) {
         Location savedLocation = locationService.createLocation(location);
         return ResponseEntity.ok(savedLocation);
     }
-
+    
     @GetMapping
     public ResponseEntity<List<Location>> getAllLocations() {
         List<Location> locations = locationService.getAllLocations();
