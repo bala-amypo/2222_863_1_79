@@ -19,16 +19,16 @@ public class RouteOptimizationResult {
     private Double estimatedFuelUsageL;
     
     private LocalDateTime generatedAt;
-
+    
     public RouteOptimizationResult() {}
-
-    public RouteOptimizationResult(Shipment shipment, Double optimizedDistanceKm, Double estimatedFuelUsageL, LocalDateTime generatedAt) {
+    
+    public RouteOptimizationResult(Shipment shipment, Double optimizedDistanceKm, Double estimatedFuelUsageL) {
         this.shipment = shipment;
         this.optimizedDistanceKm = optimizedDistanceKm;
         this.estimatedFuelUsageL = estimatedFuelUsageL;
-        this.generatedAt = generatedAt;
+        this.generatedAt = LocalDateTime.now();
     }
-
+    
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
