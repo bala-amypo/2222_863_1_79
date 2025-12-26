@@ -14,28 +14,30 @@ public class VehicleServiceImpl implements VehicleService {
     
     private final VehicleRepository vehicleRepository;
     private final UserRepository userRepository;
-
+    
     public VehicleServiceImpl(VehicleRepository vehicleRepository, UserRepository userRepository) {
         this.vehicleRepository = vehicleRepository;
         this.userRepository = userRepository;
     }
-
+    
     @Override
     public Vehicle addVehicle(Long userId, Vehicle vehicle) {
         if (vehicle.getCapacityKg() <= 0) {
-            throw new IllegalArgumentException("Vehicle Capacity must be greater than 0");
+            throw new IllegalArgumentException("Capacity must be positive");
         }
+        
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        
         vehicle.setUser(user);
         return vehicleRepository.save(vehicle);
     }
-
+    
     @Override
     public List<Vehicle> getVehiclesByUser(Long userId) {
         return vehicleRepository.findByUserId(userId);
     }
-
+    
     @Override
     public Vehicle findById(Long id) {
         return vehicleRepository.findById(id)

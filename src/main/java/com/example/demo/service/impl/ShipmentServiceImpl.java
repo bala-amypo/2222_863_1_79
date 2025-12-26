@@ -14,28 +14,28 @@ public class ShipmentServiceImpl implements ShipmentService {
     
     private final ShipmentRepository shipmentRepository;
     private final VehicleService vehicleService;
-
+    
     public ShipmentServiceImpl(ShipmentRepository shipmentRepository, VehicleService vehicleService) {
         this.shipmentRepository = shipmentRepository;
         this.vehicleService = vehicleService;
     }
-
+    
     @Override
     public Shipment createShipment(Long vehicleId, Shipment shipment) {
         Vehicle vehicle = vehicleService.findById(vehicleId);
         
         if (shipment.getWeightKg() > vehicle.getCapacityKg()) {
-            throw new IllegalArgumentException("Shipment weight exceeds vehicle capacity");
+            throw new IllegalArgumentException("Weight exceeds vehicle capacity");
         }
         
         if (shipment.getScheduledDate().isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("Scheduled date cannot be in the past");
+            throw new IllegalArgumentException("Date cannot be in the past");
         }
         
         shipment.setVehicle(vehicle);
         return shipmentRepository.save(shipment);
     }
-
+    
     @Override
     public Shipment getShipment(Long shipmentId) {
         return shipmentRepository.findById(shipmentId)
