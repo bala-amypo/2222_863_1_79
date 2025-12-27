@@ -10,31 +10,46 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RouteOptimizationServiceImpl implements RouteOptimizationService {
-    
-    private final RouteOptimizationResultRepository resultRepository;
+
     private final ShipmentRepository shipmentRepository;
-    
-    public RouteOptimizationServiceImpl(RouteOptimizationResultRepository resultRepository, ShipmentRepository shipmentRepository) {
-        this.resultRepository = resultRepository;
+    private final RouteOptimizationResultRepository resultRepository;
+
+    // ⚠️ MUST MATCH TEST
+    public RouteOptimizationServiceImpl(ShipmentRepository shipmentRepository,
+                                        RouteOptimizationResultRepository resultRepository) {
         this.shipmentRepository = shipmentRepository;
+        this.resultRepository = resultRepository;
     }
-    
+
     @Override
     public RouteOptimizationResult optimizeRoute(Long shipmentId) {
+
         Shipment shipment = shipmentRepository.findById(shipmentId)
-                .orElseThrow(() -> new ResourceNotFoundException("Shipment not found"));
-        
-        // Dummy calculations
-        Double distance = 100.0 + (shipmentId % 50);
-        Double fuelUsage = distance / shipment.getVehicle().getFuelEfficiency();
-        
-        RouteOptimizationResult result = new RouteOptimizationResult(shipment, distance, fuelUsage);
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Shipment not found"));
+
+        double distance = Math.hypot(
+                shipment.getPickupLocation().getLatitude()
+                        - shipment.getDropLocation().getLatitude(),
+                shipment.getPickupLocation().getLongitude()
+                        - shipment.getDropLocation().getLongitude()
+        );
+
+        RouteOptimizationResult result = RouteOptimizationResult.builder()
+                .shipment(shipment)
+                .optimizedDistanceKm(distance)
+                .estimatedFuelUsageL(
+                        distance / shipment.getVehicle().getFuelEfficiency()
+                )
+                .build();
+
         return resultRepository.save(result);
     }
-    
+
     @Override
-    public RouteOptimizationResult getResult(Long resultId) {
-        return resultRepository.findById(resultId)
-                .orElseThrow(() -> new ResourceNotFoundException("Result not found"));
+    public RouteOptimizationResult getResult(Long id) {
+        return resultRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Result not found"));
     }
 }
