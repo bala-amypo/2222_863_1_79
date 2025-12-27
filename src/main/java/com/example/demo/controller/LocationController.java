@@ -2,29 +2,33 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Location;
 import com.example.demo.service.LocationService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/locations")
 public class LocationController {
-    
+
     private final LocationService locationService;
-    
+
+    // Constructor injection
     public LocationController(LocationService locationService) {
         this.locationService = locationService;
     }
-    
-    @PostMapping
-    public ResponseEntity<Location> createLocation(@RequestBody Location location) {
-        Location savedLocation = locationService.createLocation(location);
-        return ResponseEntity.ok(savedLocation);
+
+    // Create Location
+    @PostMapping(
+            consumes = "application/json",
+            produces = "application/json"
+    )
+    public Location createLocation(@RequestBody Location location) {
+        return locationService.createLocation(location);
     }
-    
-    @GetMapping
-    public ResponseEntity<List<Location>> getAllLocations() {
-        List<Location> locations = locationService.getAllLocations();
-        return ResponseEntity.ok(locations);
+
+    // Get All Locations
+    @GetMapping(produces = "application/json")
+    public List<Location> getAllLocations() {
+        return locationService.getAllLocations();
     }
 }
