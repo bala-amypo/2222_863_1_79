@@ -1,39 +1,24 @@
-package com.example.demo.config;
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
+    http
+        .csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(auth -> auth
 
-@Configuration
-public class SecurityConfig {
+            // ✅ Allow auth APIs (REGISTER & LOGIN)
+            .requestMatchers("/auth/**").permitAll()
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+            // ✅ Allow Swagger
+            .requestMatchers(
+                    "/swagger-ui/**",
+                    "/v3/api-docs/**",
+                    "/swagger-ui.html"
+            ).permitAll()
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+            // 🔒 Protect everything else
+            .anyRequest().authenticated()
+        )
+        .httpBasic();   // OK for now
 
-        http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                // ✅ Allow Swagger without login
-                .requestMatchers(
-                        "/swagger-ui/**",
-                        "/v3/api-docs/**",
-                        "/swagger-ui.html"
-                ).permitAll()
-
-                // 🔒 Secure all other endpoints
-                .anyRequest().authenticated()
-            )
-            // ✅ Basic login (temporary)
-            .httpBasic();
-
-        return http.build();
-    }
+    return http.build();
 }
