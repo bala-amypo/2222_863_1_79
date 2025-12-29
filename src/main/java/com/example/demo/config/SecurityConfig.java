@@ -1,24 +1,48 @@
-@Bean
-public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+package com.example.demo.config;
 
-    http
-        .csrf(csrf -> csrf.disable())
-        .authorizeHttpRequests(auth -> auth
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
-            // ✅ Allow auth APIs (REGISTER & LOGIN)
-            .requestMatchers("/auth/**").permitAll()
+@Configuration
+public class SecurityConfig {
 
-            // ✅ Allow Swagger
-            .requestMatchers(
-                    "/swagger-ui/**",
-                    "/v3/api-docs/**",
-                    "/swagger-ui.html"
-            ).permitAll()
+    // Password encoder for user passwords
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-            // 🔒 Protect everything else
-            .anyRequest().authenticated()
-        )
-        .httpBasic();   // OK for now
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-    return http.build();
+        http
+            // Disable CSRF for REST APIs
+            .csrf(csrf -> csrf.disable())
+
+            // Authorization rules
+            .authorizeHttpRequests(auth -> auth
+
+                // ✅ Allow register & login WITHOUT authentication
+                .requestMatchers("/auth/**").permitAll()
+
+                // ✅ Allow Swagger UI without authentication
+                .requestMatchers(
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**",
+                        "/swagger-ui.html"
+                ).permitAll()
+
+                // 🔒 Secure all other endpoints
+                .anyRequest().authenticated()
+            )
+
+            // Basic Authentication (temporary)
+            .httpBasic();
+
+        return http.build();
+    }
 }
